@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <body style="font-family: system-ui;">
+    <button id="start" style="font-size:18px;padding:12px 16px;">Start camera</button>
+    <div id="msg" style="margin:12px 0;"></div>
+    <video id="v" autoplay playsinline muted style="width:100%;max-width:480px;"></video>
+    <script>
+      const msg = (t) => document.getElementById('msg').textContent = t;
+      document.getElementById('start').onclick = async () => {
+        try {
+          msg('Requesting camera…');
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+          document.getElementById('v').srcObject = stream;
+          msg('Camera streaming ✅');
+        } catch (e) {
+          msg('Camera failed ❌ ' + (e && e.name ? e.name : e));
+          console.error(e);
+        }
+      };
+    </script>
+  </body>
+</html>
